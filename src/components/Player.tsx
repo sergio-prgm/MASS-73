@@ -74,7 +74,12 @@ function Player () {
     setToggleMetro(toggle => !toggle)
   }
 
-  return <button className='start-stop' onClick={handleMetro}>{toggleMetro ? 'Stop' : 'Start'}</button>
+  return <button className='
+    py-3 rounded uppercase text-xl font-semibold
+    bg-violet-600 dark:bg-violet-200
+    text-slate-50 dark:text-slate-700
+    hover:bg-violet-700 dark:hover:bg-violet-300
+    active:bg-violet-800 dark:active:bg-violet-400' id='start-stop' onClick={handleMetro}>{toggleMetro ? 'Stop' : 'Start'}</button>
 }
 
 export default Player

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-900;
+  @apply dark:bg-slate-900 bg-slate-50;
   user-select: none;
 }
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
@@ -26,7 +26,9 @@ input[type=range]:focus {
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  @apply bg-violet-300 border-none rounded-full h-5 w-5;
+  @apply dark:bg-violet-300 bg-violet-400 
+  dark:hover:bg-violet-400 hover:bg-violet-500
+  border-none rounded-full h-5 w-5;
   cursor: pointer;
   margin-top: -8px;
 }
@@ -34,15 +36,17 @@ input[type=range]::-webkit-slider-thumb {
 input[type=range]::-moz-range-thumb {
   -webkit-appearance: none;
   /* border-radius: 50%; */
-  @apply bg-violet-300 border-none rounded-full h-5 w-5;
+  @apply dark:bg-violet-300 bg-violet-400 
+  dark:hover:bg-violet-400 hover:bg-violet-500
+  border-none rounded-full h-5 w-5;
   cursor: pointer;
   margin-top: -8px;
 }
 
 input[type=range]::-webkit-slider-runnable-track{
-  @apply bg-slate-700 border-none h-[3px] w-full;
+  @apply dark:bg-slate-700 bg-slate-300 border-none h-[3px] w-full;
 }
 
 input[type=range]::-moz-range-track{
-  @apply bg-slate-700 border-none h-[3px] w-full;
+  @apply dark:bg-slate-700 bg-slate-300 border-none h-[3px] w-full;
 }

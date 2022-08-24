@@ -4,8 +4,11 @@ import Head from 'next/head'
 import * as Tone from 'tone'
 import Player from '../components/Player'
 import { useEffect, useState } from 'react'
+import { useTheme } from 'next-themes'
 
 const Home: NextPage = () => {
+  const { theme, setTheme } = useTheme()
+
   return (
     <>
       <Head>
@@ -17,8 +20,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-    <div className="text-slate-100 text-center">
-      <h1>Metronome</h1>
+    <div className="dark:text-slate-100 text-slate-600 text-center">
+    <button
+      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      className='px-6 my-6 py-2 rounded font-bold bg-slate-900 dark:bg-slate-50 text-slate-100 dark:text-slate-800 uppercase'
+    >
+      Toggle {theme === 'light' ? 'dark' : 'light'}
+    </button>
+      {/* <h1>Metronome</h1> */}
       <div className="m-0 flex justify-center items-center h-screen w-full" id='container'>
         <div id="metronome" className='flex flex-col w-[500px] justify-between'>
           <BPM />
@@ -73,7 +82,7 @@ function BPM () {
   return (<>
     <div className='w-full text-center font-bold mb-3' id="bpm-display">
       <span className='text-6xl' id="tempo">{bpm}</span>
-      <span className='text-violet-300' id="bpm">BPM</span>
+      <span className='dark:text-violet-300 text-violet-500' id="bpm">BPM</span>
     </div>
     <div className='text-sm uppercase text-center mb-6' id="tempo-text">vivace</div>
     <div className='flex grow-0 justify-between items-center gap-2 mb-4' id="tempo-settings">

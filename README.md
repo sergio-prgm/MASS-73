@@ -1,8 +1,5 @@
 # MASS-73 (name under deliberation)
 
-
----
-
 **Your app for practicing and tracking your progress with a metronome.**
 
 ---

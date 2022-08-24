@@ -30,7 +30,6 @@ function Player () {
   }), [])
 
   let index = 0
-  // console.log(bpm)
   // [ ] To make the subdivisions, different inputs[] might have to be created (mainly one for triplets)
 
   const repeat = useCallback((time: number) => {

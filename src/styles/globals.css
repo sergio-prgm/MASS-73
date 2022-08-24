@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-900
+  @apply bg-slate-900;
+  user-select: none;
 }
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 
@@ -11,10 +12,8 @@ input[type=range] {
   -webkit-appearance: none;
   background-color: transparent;
   width: 70%;
-  --accent-color: red;
   @apply appearance-none w-full 
-    m-8 border-none
-    rounded-sm
+    border-none rounded-sm my-4; 
 }
 
 input[type=range]::-webkit-slider-thumb{
@@ -27,23 +26,23 @@ input[type=range]:focus {
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  @apply bg-lime-200 border-none rounded-full h-7 w-7;
+  @apply bg-violet-300 border-none rounded-full h-5 w-5;
   cursor: pointer;
-  margin-top: -13px;
+  margin-top: -8px;
 }
 
 input[type=range]::-moz-range-thumb {
   -webkit-appearance: none;
   /* border-radius: 50%; */
-  @apply bg-lime-200 border-none rounded-full h-7 w-7;
+  @apply bg-violet-300 border-none rounded-full h-5 w-5;
   cursor: pointer;
-  margin-top: -14px;
+  margin-top: -8px;
 }
 
 input[type=range]::-webkit-slider-runnable-track{
-  @apply bg-lime-500 border-none h-[5px] w-full;
+  @apply bg-slate-700 border-none h-[3px] w-full;
 }
 
 input[type=range]::-moz-range-track{
-  @apply bg-lime-500 border-none h-[5px] w-full;
+  @apply bg-slate-700 border-none h-[3px] w-full;
 }

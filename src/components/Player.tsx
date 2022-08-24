@@ -11,7 +11,8 @@ function Player () {
     setGain(new Tone.Gain(0.3).toDestination())
     setSynths([
       new Tone.PolySynth(),
-      new Tone.PolySynth()
+      new Tone.PolySynth(),
+      new Tone.PolySynth() // Added for subdivisions
     ])
   }, [])
 
@@ -21,19 +22,24 @@ function Player () {
 
   const presets = useMemo(() => ({
     inputs: [
-      [0, 0, 1, 0, 1, 0, 1, 0],
-      [1, 0, 0, 0, 0, 0, 0, 0]
+      [0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+      [1],
+      [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1] // Added for subdivisions
     ],
-    notes: ['A4', 'A5']
+    notes: ['A4', 'A5', 'F3']
   }), [])
 
   let index = 0
   // console.log(bpm)
+  // [ ] To make the subdivisions, different inputs[] might have to be created (mainly one for triplets)
 
   const repeat = useCallback((time: number) => {
-    const step = index % 8
+    console.log('changed')
+    const step = index % (Number(Tone.Transport.timeSignature) * 2)
+    console.log(Tone.Transport.timeSignature)
+
     // Iterate through the synths/sounds to play
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 2; i++) { // Change the 2 to a 3 to make duplet subdivisions
       if (synths) {
         const synth = synths[i]
         const note = presets.notes[i]
@@ -56,7 +62,6 @@ function Player () {
   // timeSignature
 
   const handleMetro = () => {
-    console.log({ toggleMetro, tone: Tone.Transport.loop })
     if (!toggleMetro) {
       if (Tone.Transport.state === 'started') return
       scheduleMetro()
@@ -64,7 +69,6 @@ function Player () {
       // Tone.Transport.stop()
       Tone.Transport.start()
     } else {
-      console.log('sla')
       Tone.Transport.cancel().toggle()
       index = 0
     }

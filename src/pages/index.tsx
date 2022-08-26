@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next'
 import Head from 'next/head'
@@ -5,9 +7,11 @@ import * as Tone from 'tone'
 import Player from '../components/Player'
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
+import { signOut, useSession, signIn } from 'next-auth/react'
 
 const Home: NextPage = () => {
   const { theme, setTheme } = useTheme()
+  const { data: session } = useSession()
 
   return (
     <>
@@ -27,6 +31,18 @@ const Home: NextPage = () => {
     >
       Toggle {theme === 'light' ? 'dark' : 'light'}
     </button>
+    {
+      session
+        ? <>
+            <h2>Logged in as {session?.user?.email}</h2>
+            <button className='py-2 px-5 bg-violet-200 text-slate-800' onClick={
+              () => signOut({ callbackUrl: '/api/auth/logout' }) }>Sign out</button>
+          </>
+        : <>
+            <h2>Not logged!!</h2>
+            <button className='py-2 px-5 bg-violet-200 text-slate-800' onClick={() => signIn()}>Sign In</button>
+        </>
+    }
       {/* <h1>Metronome</h1> */}
       <div className="m-0 flex justify-center items-center h-screen w-full" id='container'>
         <div id="metronome" className='flex flex-col w-[500px] justify-between'>
@@ -41,7 +57,7 @@ const Home: NextPage = () => {
 }
 
 function TimeSignature () {
-  const [ts, setTs] = useState(5)
+  const [ts, setTs] = useState(4)
   const maxTS = 9
   const minTS = 2
 

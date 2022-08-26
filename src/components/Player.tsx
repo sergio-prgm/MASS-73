@@ -6,7 +6,7 @@ function Player () {
   const [toggleMetro, setToggleMetro] = useState(false)
   const [gain, setGain] = useState<Tone.Gain<'gain'>>()
   const [synths, setSynths] = useState<Tone.PolySynth[]>()
-
+  // . Try making index a state variable
   useEffect(() => {
     setGain(new Tone.Gain(0.3).toDestination())
     setSynths([

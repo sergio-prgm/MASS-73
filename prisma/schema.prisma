@@ -26,6 +26,32 @@ model Post {
   createdAt       DateTime    @default(now())
 }
 
+model Exercise {
+  id        String @id @default(cuid())
+  name      String
+  tonic     String 
+  createdAt DateTime @default(now())
+  // description String
+  // lastPractice DateTime 
+  userId    String
+  baseBPM   Int
+  maxBPM    Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  practices Practice[]
+}
+
+model Practice {
+  id        String @id @default(cuid())
+  duration  Int
+  notes     String
+  baseBPM   Int
+  finalBPM  Int
+  desiredBPM  Int
+  date      DateTime @default(now())
+  exerciseId  String
+  exercise  Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+}
+
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -61,6 +87,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    exercises     Exercise[]
     // Add whatever fields are necessary
 }
 

@@ -6,11 +6,10 @@ import Head from 'next/head'
 import * as Tone from 'tone'
 import Player from '../components/Player'
 import { useEffect, useState } from 'react'
-import { useTheme } from 'next-themes'
 import { signOut, useSession, signIn } from 'next-auth/react'
+import Header from '../components/Header'
 
 const Home: NextPage = () => {
-  const { theme, setTheme } = useTheme()
   const { data: session } = useSession()
 
   return (
@@ -24,13 +23,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+    <Header />
     <div className="dark:text-slate-100 text-slate-600 text-center">
-    <button
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      className='px-6 my-6 py-2 rounded font-bold bg-slate-900 dark:bg-slate-50 text-slate-100 dark:text-slate-800 uppercase'
-    >
-      Toggle {theme === 'light' ? 'dark' : 'light'}
-    </button>
     {
       session
         ? <>

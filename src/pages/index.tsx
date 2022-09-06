@@ -1,17 +1,13 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/promise-function-async */
-/* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import * as Tone from 'tone'
 import Player from '../components/Player'
 import { useEffect, useState } from 'react'
-import { signOut, useSession, signIn } from 'next-auth/react'
 import Header from '../components/Header'
+import PlusSVG from '../components/PlusSVG'
+import MinusSVG from '../components/MinusSVG'
 
 const Home: NextPage = () => {
-  const { data: session } = useSession()
-
   return (
     <>
       <Head>
@@ -25,18 +21,6 @@ const Home: NextPage = () => {
 
     <Header />
     <div className="dark:text-slate-100 text-slate-600 text-center">
-    {
-      session
-        ? <>
-            <h2>Logged in as {session?.user?.email}</h2>
-            <button className='py-2 px-5 bg-violet-200 text-slate-800' onClick={
-              () => signOut({ callbackUrl: '/api/auth/logout' }) }>Sign out</button>
-          </>
-        : <>
-            <h2>Not logged!!</h2>
-            <button className='py-2 px-5 bg-violet-200 text-slate-800' onClick={() => signIn()}>Sign In</button>
-        </>
-    }
       {/* <h1>Metronome</h1> */}
       <div className="m-0 flex justify-center items-center h-screen w-full" id='container'>
         <div id="metronome" className='flex flex-col w-[500px] justify-between'>
@@ -66,14 +50,18 @@ function TimeSignature () {
         onClick={() => ts > minTS && setTs(ts => ts - 1)}
         className='bg-slate-800 hover:bg-slate-700 rounded-full p-2'
         id="adjust-tempo decrease"
-      ><img src='/SVG/Minus.svg' alt='Minus icon' width={20} height={20}/>
+      >
+        <MinusSVG color='white' height={20} width={20} />
+        {/* <img src='/SVG/Minus.svg' alt='Minus icon' width={20} height={20}/> */}
       </button>
       <div className="measure-count">{ts}</div>
       <button
         onClick={() => ts < maxTS && setTs(ts => ts + 1)}
         className='bg-slate-800 hover:bg-slate-700 rounded-full p-2'
         id="adjust-tempo decrease"
-      ><img src='/SVG/Plus.svg' alt='Minus icon' width={20} height={20}/>
+      >
+        <PlusSVG color='white' height={20} width={20} />
+        {/* <img src='/SVG/Plus.svg' alt='Minus icon' width={20} height={20}/> */}
       </button>
     </div>
     <span className="beats-per-measure">Beats per measure</span>
@@ -100,7 +88,9 @@ function BPM () {
         onClick={(e) => { bpm > minBPM && setBpm(bpm => bpm - 1) }}
         className='bg-slate-800 hover:bg-slate-700 rounded-full p-2'
         id="adjust-tempo decrease"
-      ><img src='/SVG/Minus.svg' alt='Minus icon' width={20} height={20}/>
+      >
+        <MinusSVG color='white' height={20} width={20}/>
+        {/* <img src='/SVG/Minus.svg' alt='Minus icon' width={20} height={20}/> */}
       </button>
       <input type="range" min={minBPM} max={maxBPM} step="1"
         onInput={e => setBpm(Number.parseInt((e.target as HTMLInputElement).value))}
@@ -111,7 +101,8 @@ function BPM () {
         onClick={(e) => { bpm < maxBPM && setBpm(bpm => bpm + 1) }}
         className='bg-slate-800 hover:bg-slate-700 rounded-full p-2'
         id="adjust-tempo increase">
-        <img src='/SVG/Plus.svg' alt='Plus icon' width={20} height={20}/>
+        <PlusSVG color='white' height={20} width={20} />
+        {/* <img src='/SVG/Plus.svg' alt='Plus icon' width={20} height={20}/> */}
       </button>
     </div>
   </>)

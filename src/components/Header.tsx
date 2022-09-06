@@ -1,11 +1,23 @@
+/* eslint-disable @typescript-eslint/promise-function-async */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useTheme } from 'next-themes'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function Header () {
   const { setTheme, theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
 
   return (
-    <header className='flex flex-row justify-between items-center'>
+    <header className='flex flex-row justify-between items-center my-4'>
       <Link href='/dashboard' >
         <a>Dashboard</a>
       </Link>
@@ -15,11 +27,23 @@ export default function Header () {
       <div>
         <button
           onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-          className='px-6 my-6 py-2 rounded font-bold bg-slate-900 dark:bg-slate-50 text-slate-100 dark:text-slate-800 uppercase'
+          className='px-5 py-2 rounded font-bold bg-slate-900 dark:bg-slate-50 text-slate-100 dark:text-slate-800 uppercase'
         >
-          Toggle {theme === 'light' ? 'dark' : 'light'}
+          {theme === 'light' ? 'dark' : 'light'}
         </button>
       </div>
+    {
+      session
+        ? <>
+            <h2>Logged in as {session?.user?.email}</h2>
+            <button className='py-2 px-5 rounded font-bold bg-rose-300 text-slate-800' onClick={
+              () => signOut({ callbackUrl: '/api/auth/logout' }) }>Sign out</button>
+          </>
+        : <>
+            {/* <h2>Not logged!!</h2> */}
+            <button className='py-2 px-5 rounded font-bold bg-violet-300 text-slate-800' onClick={() => signIn()}>Sign In</button>
+        </>
+    }
     </header>
   )
 }

@@ -1,6 +1,7 @@
 // import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import Header from '../components/Header'
+import PlusSVG from '../components/PlusSVG'
 
 const MOCK_SESSION = [
   { title: 'C Major Scale', lastModified: new Date(2022, 8, 29), highestBPM: 120 },
@@ -23,7 +24,7 @@ export default function Dashboard () {
       <Link href='/exercise/new' >
         <a className='p-4 dark:bg-violet-50 dark:text-slate-900 rounded'>
           <h3>Add new exercise</h3>
-          <img src='/SVG/PlusDark.svg' alt='Plus icon' width={40} height={40} className='mx-auto' />
+          <PlusSVG color='black' height={40} width={40}/>
         </a>
       </Link>
     </div>

@@ -1,13 +1,17 @@
 // import { useSession } from 'next-auth/react'
 import { Exercise } from '@prisma/client'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import Header from '../components/Header'
 import PlusSVG from '../components/PlusSVG'
 import { trpc } from '../utils/trpc'
 
 export default function Dashboard () {
-  const { data } = trpc.useQuery(['exercise.all'])
+  const { data } = trpc.useQuery(['exercise.all'], { refetchOnWindowFocus: false })
   // const { data: session } = useSession()
+  useEffect(() => {
+    console.log('main dashboard')
+  }, [data])
   if (!data) {
     return <div>Loading...</div>
   }

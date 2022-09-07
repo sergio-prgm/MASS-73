@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useTheme } from 'next-themes'

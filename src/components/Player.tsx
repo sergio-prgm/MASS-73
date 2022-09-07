@@ -33,9 +33,7 @@ function Player () {
   // [ ] To make the subdivisions, different inputs[] might have to be created (mainly one for triplets)
 
   const repeat = useCallback((time: number) => {
-    console.log('changed')
     const step = index % (Number(Tone.Transport.timeSignature) * 2)
-    console.log(Tone.Transport.timeSignature)
 
     // Iterate through the synths/sounds to play
     for (let i = 0; i < 2; i++) { // Change the 2 to a 3 to make duplet subdivisions

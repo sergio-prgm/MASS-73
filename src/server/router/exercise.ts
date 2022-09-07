@@ -19,6 +19,22 @@ export const exerciseRouter = createRouter()
       })
     }
   })
+  .query('byId', {
+    input: z.object({ id: z.string() }),
+    async resolve ({ input }) {
+      const { id } = input
+      const exercise = await prisma.exercise.findUnique({
+        where: { id }
+      })
+      if (!exercise) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No exercise with Id ${id}`
+        })
+      }
+      return exercise
+    }
+  })
   .mutation('createExercise', {
     input: z.object({
       name: z.string(),
@@ -43,19 +59,3 @@ export const exerciseRouter = createRouter()
       return res
     }
   })
-  // .query('byId', {
-  //   input: z.object({ id: z.string() }),
-  //   async resolve ({ input }) {
-  //     const { id } = input
-  //     const post = await prisma.post.findUnique({
-  //       where: { id }
-  //     })
-  //     if (!post) {
-  //       throw new TRPCError({
-  //         code: 'NOT_FOUND',
-  //         message: `No post with Id ${id}`
-  //       })
-  //     }
-  //     return post
-  //   }
-  // })

@@ -6,7 +6,7 @@ import { createRouter } from './context'
  */
 export function createProtectedRouter () {
   return createRouter().middleware(async ({ ctx, next }) => {
-    if (!ctx.session || !ctx.session.user) {
+    if (!ctx.session?.user) {
       throw new trpc.TRPCError({ code: 'UNAUTHORIZED' })
     }
     return await next({

@@ -14,10 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id String @id @default(cuid())
-}
-
 model Post {
   id              String      @id
   title           String
@@ -31,25 +27,26 @@ model Exercise {
   name      String
   tonic     String 
   createdAt DateTime @default(now())
-  // description String
+  updatedAt DateTime @updatedAt @default(now())
+  description String
   // lastPractice DateTime 
   userId    String
-  baseBPM   Int
-  maxBPM    Int
+  baseBPM   Int @default(20)
+  maxBPM    Int @default(20)
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   practices Practice[]
 }
 
 model Practice {
-  id        String @id @default(cuid())
-  duration  Int
-  notes     String
-  baseBPM   Int
-  finalBPM  Int
+  id          String @id @default(cuid())
+  duration    Int
+  notes       String
+  baseBPM     Int
+  finalBPM    Int
   desiredBPM  Int
-  date      DateTime @default(now())
+  date        DateTime @default(now())
   exerciseId  String
-  exercise  Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  exercise    Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 }
 
 // Necessary for Next auth

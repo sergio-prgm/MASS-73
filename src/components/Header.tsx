@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
+// TODO show user.picture not name
+
 export default function Header () {
   const { setTheme, theme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -33,9 +35,9 @@ export default function Header () {
         </button>
       </div>
     {
-      session
+      session?.user?.image
         ? <>
-            <h2>Logged in as {session?.user?.email}</h2>
+            <img src={session.user?.image} height={40} width={40} className='rounded' alt='profile picture' />
             <button className='py-2 px-5 rounded font-bold bg-rose-300 text-slate-800' onClick={
               () => signOut({ callbackUrl: '/api/auth/logout' }) }>Sign out</button>
           </>

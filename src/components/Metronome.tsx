@@ -4,13 +4,18 @@ import * as Tone from 'tone'
 import Player from './Player'
 import { PlusSVG, MinusSVG } from './SVG'
 
+// TODO make bpm and ts react to Tone and not the other way around
+
 interface MetronomeProps {
   baseBPM?: number
   baseTS?: number
 }
 
 function Metronome ({ baseBPM, baseTS }: MetronomeProps) {
-  if (typeof baseBPM === 'number' && baseBPM < 20) baseBPM = 120
+  if (typeof baseBPM === 'number') {
+    Tone.Transport.bpm.value = baseBPM
+    if (baseBPM < 20) baseBPM = 120
+  }
 
   return <>
     <BPM baseBPM={baseBPM} />
@@ -21,10 +26,11 @@ function Metronome ({ baseBPM, baseTS }: MetronomeProps) {
 
 export default Metronome
 
-function BPM ({ baseBPM = 120 }) {
+function BPM ({ baseBPM = 110 }) {
   const [bpm, setBpm] = useState(baseBPM)
   const maxBPM = 280
   const minBPM = 20
+  const BPMV = Tone.Transport.bpm?.value
 
   useEffect(() => {
     Tone.Transport.bpm.value = bpm
@@ -32,7 +38,7 @@ function BPM ({ baseBPM = 120 }) {
 
   return (<>
     <div className='w-full text-center font-bold mb-3' id="bpm-display">
-      <span className='text-6xl' id="tempo">{bpm}</span>
+      <span className='text-6xl' id="tempo">{BPMV.toLocaleString()}</span>
       <span className='dark:text-violet-300 text-violet-500' id="bpm">BPM</span>
     </div>
     <div className='text-sm uppercase text-center mb-6' id="tempo-text">vivace</div>
@@ -48,7 +54,7 @@ function BPM ({ baseBPM = 120 }) {
       <input type="range" min={minBPM} max={maxBPM} step="1"
         onInput={e => setBpm(Number.parseInt((e.target as HTMLInputElement).value))}
         className=''
-        defaultValue={bpm}
+        value={BPMV}
       />
       <button
         onClick={(e) => { bpm < maxBPM && setBpm(bpm => bpm + 1) }}
@@ -68,7 +74,7 @@ function TimeSignature ({ baseTS = 4 }) {
 
   useEffect(() => {
     Tone.Transport.timeSignature = ts
-    console.log(Tone.Transport.timeSignature)
+    // console.log(Tone.Transport.timeSignature)
   }, [ts, setTs])
 
   return (<>

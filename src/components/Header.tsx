@@ -8,16 +8,20 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 
 // TODO show tooltip when hovering over user image
 
-export default function Header () {
+export default function Header (): JSX.Element {
   const { setTheme, theme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const { data: session, status } = useSession()
+
+  const switchTheme = () => theme === 'light' ? 'dark' : 'light'
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) return null
+  if (!mounted) {
+    return <BasicHeader />
+  }
 
   if (status === 'authenticated') {
     return (
@@ -30,10 +34,10 @@ export default function Header () {
         </Link>
         <div>
           <button
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            onClick={() => setTheme(switchTheme())}
             className='px-5 py-2 rounded font-bold bg-slate-900 dark:bg-slate-50 text-slate-100 dark:text-slate-800 uppercase'
           >
-            {theme === 'light' ? 'dark' : 'light'}
+            {switchTheme()}
           </button>
         </div>
       {
@@ -52,19 +56,30 @@ export default function Header () {
     )
   }
 
-  if (status === 'unauthenticated') {
-    return (
+  return (
       <header className='flex flex-row justify-between items-center my-4'>
         <div>
           <button
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            onClick={() => setTheme(switchTheme())}
             className='px-5 py-2 rounded font-bold bg-slate-900 dark:bg-slate-50 text-slate-100 dark:text-slate-800 uppercase'
           >
-            {theme === 'light' ? 'dark' : 'light'}
+            {switchTheme()}
           </button>
         </div>
           <button className='py-2 px-5 rounded font-bold bg-violet-300 text-slate-800' onClick={() => signIn()}>Sign In</button>
       </header>
-    )
-  }
+  )
+}
+
+function BasicHeader () {
+  return (
+    <header className='flex flex-row justify-between items-center my-4'>
+      <div>
+        <button
+        >
+        </button>
+      </div>
+        <button className='py-2 px-5 rounded font-bold bg-violet-300 text-slate-800' onClick={() => signIn()}>Sign In</button>
+    </header>
+  )
 }

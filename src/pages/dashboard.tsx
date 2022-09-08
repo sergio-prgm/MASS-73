@@ -1,14 +1,21 @@
-// import { useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { Exercise } from '@prisma/client'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import Header from '../components/Header'
 import PlusSVG from '../components/PlusSVG'
 import { trpc } from '../utils/trpc'
+import { useRouter } from 'next/router'
 
 export default function Dashboard () {
   const { data } = trpc.useQuery(['exercise.all'], { refetchOnWindowFocus: false })
-  // const { data: session } = useSession()
+  const router = useRouter()
+  const { status } = useSession({
+    required: true,
+    async onUnauthenticated () {
+      await router.push('/')
+    }
+  })
   useEffect(() => {
     console.log('main dashboard')
   }, [data])

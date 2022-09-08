@@ -14,9 +14,11 @@ export const authOptions: NextAuthOptions = {
         session.user.id = user.id
       }
       return session
+    },
+    async redirect ({ url, baseUrl }) {
+      return '/dashboard'
     }
   },
-  // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
     Auth0Provider({
@@ -24,7 +26,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.AUTH0_CLIENT_SECRET,
       issuer: env.AUTH0_ISSUER
     })
-    // ...add more providers here
   ]
 }
 

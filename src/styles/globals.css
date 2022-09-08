@@ -50,3 +50,13 @@ input[type=range]::-webkit-slider-runnable-track{
 input[type=range]::-moz-range-track{
   @apply dark:bg-slate-700 bg-slate-300 border-none h-[3px] w-full;
 }
+
+/* NUMBER INPUTS */
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

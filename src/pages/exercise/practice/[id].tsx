@@ -36,7 +36,7 @@ export default function ExercisePractice () {
   //   if (formData?.baseBPM) Tone.Transport.bpm.value = formData.baseBPM
   // }, [formData])
 
-  console.log('[[from Daddy]]', formData)
+  // console.log('[[from Daddy]]', formData)
   if (isLoading) {
     return <p>...loading</p>
   }
@@ -71,7 +71,7 @@ function PracticeForm ({ formData, setToggleForm, setFormData }:
   formData: FormData
   setToggleForm: Dispatch<SetStateAction<boolean>>
   setFormData: Dispatch<SetStateAction<FormData>>}) {
-  const { register, handleSubmit } = useForm<FormData>()
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormData>()
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     setToggleForm(toggle => !toggle)
@@ -81,6 +81,7 @@ function PracticeForm ({ formData, setToggleForm, setFormData }:
   }
 
   const { baseBPM, targetBPM, duration } = formData
+  console.log(errors)
 
   return (
     <div
@@ -98,17 +99,55 @@ function PracticeForm ({ formData, setToggleForm, setFormData }:
               className='bg-slate-400 text-center inline-block w-12 rounded px-2 py-1 appearance-none outline-none'
               max={280}
               min={20}
-              type='number' {...register('baseBPM', { required: true })} defaultValue={baseBPM} />
+              value={watch('baseBPM') || baseBPM}
+              // onInput={e => setValue('baseBPM', parseInt((e.target as HTMLInputElement).value))}
+              {...register('baseBPM', {
+                required: true,
+                min: 20,
+                max: 280,
+                onChange: (e) => parseInt((e.target as HTMLInputElement).value)
+              })}
+
+              type='number'
+              // {...register('baseBPM', { required: true })} defaultValue={baseBPM}
+              />
           </label>
-          <input type='range' />
+          <input
+            type="range" min={20} max={280} step="1"
+            // onInput={e => setBpm(Number.parseInt((e.target as HTMLInputElement).value))}
+            onInput={e => setValue('baseBPM', parseInt((e.target as HTMLInputElement).value))}
+            value={watch('baseBPM') || baseBPM}
+            className=''
+            />
+
           <label className='flex justify-between mx-auto text-slate-900 font-bold w-3/5'>
             Target BPM
             <input
               className='bg-slate-400 text-center inline-block w-12 rounded px-2 py-1 appearance-none outline-none'
               max={280}
               min={20}
-              type='number' {...register('targetBPM', { required: true })} defaultValue={targetBPM} />
+              // value={(watch('baseBPM') + 10) || targetBPM }
+              defaultValue={targetBPM}
+              type='number'
+              // onInput={e =>
+              //   setValue('targetBPM', , { shouldValidate: true})
+              // }
+              {...register('targetBPM', {
+                required: true,
+                min: watch('baseBPM'),
+                max: 280,
+                onChange: (e) => parseInt((e.target as HTMLInputElement).value)
+              })}
+            />
           </label>
+          <input
+            type="range" min={20} max={280} step="1"
+            // onInput={e => setBpm(Number.parseInt((e.target as HTMLInputElement).value))}
+            onInput={e => setValue('targetBPM', parseInt((e.target as HTMLInputElement).value))}
+            value={watch('targetBPM') || targetBPM}
+            className=''
+            />
+
           <label className='flex justify-between mx-auto text-slate-900 font-bold w-3/5'>
             <p>Practice duration <small>(in minutes)</small></p>
             <input

@@ -1,20 +1,25 @@
 import * as Tone from 'tone'
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import { Frequency } from 'tone/build/esm/core/type/Units'
+import { useRouter } from 'next/router'
 
 function Player () {
   const [toggleMetro, setToggleMetro] = useState(false)
   const [gain, setGain] = useState<Tone.Gain<'gain'>>()
   const [synths, setSynths] = useState<Tone.PolySynth[]>()
+  const [toggle, setToggle] = useState(Date.now())
+  const router = useRouter()
+
   // . Try making index a state variable
   useEffect(() => {
+    console.log('%cStarting new Metronome', 'color:blue', Tone.Transport.state)
     setGain(new Tone.Gain(0.3).toDestination())
     setSynths([
       new Tone.PolySynth(),
       new Tone.PolySynth(),
       new Tone.PolySynth() // Added for subdivisions
     ])
-  }, [])
+  }, [toggle])
 
   if (gain && synths) synths.forEach(synth => synth.chain(gain))
   // synths[0].oscillator.type = 'fmtriangle'
@@ -60,6 +65,7 @@ function Player () {
 
   const handleMetro = () => {
     if (!toggleMetro) {
+      setToggle(Date.now())
       if (Tone.Transport.state === 'started') return
       scheduleMetro()
       void Tone.start()
@@ -67,17 +73,29 @@ function Player () {
       Tone.Transport.start()
     } else {
       Tone.Transport.cancel().toggle()
-      index = 0
     }
     setToggleMetro(toggle => !toggle)
   }
 
-  return <button className='
-    py-3 rounded uppercase text-xl font-semibold
-    bg-violet-600 dark:bg-violet-200
-    text-slate-50 dark:text-slate-700
-    hover:bg-violet-700 dark:hover:bg-violet-300
-    active:bg-violet-800 dark:active:bg-violet-400' id='start-stop' onClick={handleMetro}>{toggleMetro ? 'Stop' : 'Start'}</button>
+  useEffect(() => {
+    router.events.on('routeChangeStart', () => {
+      Tone.Transport.cancel().stop()
+    })
+  }, [router.events])
+
+  return (<>
+      <button className='
+        py-3 rounded uppercase text-xl font-semibold
+        bg-violet-600 dark:bg-violet-200
+        text-slate-50 dark:text-slate-700
+        hover:bg-violet-700 dark:hover:bg-violet-300
+        active:bg-violet-800 dark:active:bg-violet-400'
+        id='start-stop'
+        onClick={handleMetro}
+        >
+          {toggleMetro ? 'Stop' : 'Start'}
+      </button>
+    </>)
 }
 
 export default Player

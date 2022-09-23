@@ -26,11 +26,11 @@ function Metronome ({ baseBPM, baseTS }: MetronomeProps) {
 
 export default Metronome
 
-function BPM ({ baseBPM = 110 }) {
+function BPM ({ baseBPM = 120 }) {
   const [bpm, setBpm] = useState(baseBPM)
   const maxBPM = 280
   const minBPM = 20
-  const BPMV = Tone.Transport.bpm?.value
+  const BPMValue = Tone.Transport.bpm?.value
 
   useEffect(() => {
     Tone.Transport.bpm.value = bpm
@@ -38,7 +38,7 @@ function BPM ({ baseBPM = 110 }) {
 
   return (<>
     <div className='w-full text-center font-bold mb-3' id="bpm-display">
-      <span className='text-6xl' id="tempo">{BPMV.toLocaleString()}</span>
+      <span className='text-6xl' id="tempo">{(BPMValue || bpm).toFixed(0)}</span>
       <span className='dark:text-violet-300 text-violet-500' id="bpm">BPM</span>
     </div>
     <div className='text-sm uppercase text-center mb-6' id="tempo-text">vivace</div>
@@ -54,7 +54,7 @@ function BPM ({ baseBPM = 110 }) {
       <input type="range" min={minBPM} max={maxBPM} step="1"
         onInput={e => setBpm(Number.parseInt((e.target as HTMLInputElement).value))}
         className=''
-        value={BPMV}
+        value={BPMValue}
       />
       <button
         onClick={(e) => { bpm < maxBPM && setBpm(bpm => bpm + 1) }}

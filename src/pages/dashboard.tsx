@@ -25,16 +25,22 @@ export default function Dashboard () {
 
   return (<>
     <Header />
-    <div className='flex flex-wrap mx-auto justify-center gap-4'>
+    <div
+      className='grid grid-cols-1 sm:grid-cols-2 max-w-xs sm:max-w-xl mx-auto justify-center gap-4 px-2'>
       {
         data.map((exercise, index) => (
           <SessionCard key={index} {...exercise} />
         ))
       }
       <Link href='/exercise/new' >
-        <a className='p-4 dark:bg-violet-50 sm:w-1/3 dark:text-slate-900 rounded'>
-          <h3>Add new exercise</h3>
-          <PlusSVG color='black' height={40} width={40}/>
+        <a className='p-4 rounded
+        w-full
+        dark:bg-violet-50 dark:text-slate-900 dark:shadow-none
+        bg-violet-200 shadow-lg text-slate-800'>
+          <h3 className=''>Add new exercise</h3>
+          <div className='content-center h-[80%] flex justify-center items-center'>
+            <PlusSVG color='black' height={40} width={40}/>
+          </div>
         </a>
       </Link>
     </div>
@@ -42,9 +48,13 @@ export default function Dashboard () {
 }
 
 function SessionCard ({ name, updatedAt, maxBPM, createdAt, id }: Exercise) {
-  console.log('here', name)
+  // console.log('here', name)
   return (
-    <article className='p-4 flex justify-between flex-col gap-3 rounded sm:w-1/3 dark:bg-violet-50 dark:text-slate-900'>
+    <article
+      className='p-4 flex justify-between flex-col gap-3 rounded
+        w-full
+        dark:bg-violet-50 dark:text-slate-900 dark:shadow-none
+        bg-violet-200 shadow-lg text-slate-800'>
       <div className=''>
         <h3 className='font-semibold text-xl'>{name}</h3>
         <p>Highest BPM: <span className='font-bold'>{maxBPM}</span></p>
@@ -55,8 +65,11 @@ function SessionCard ({ name, updatedAt, maxBPM, createdAt, id }: Exercise) {
             : <small className='block'>Last session: {updatedAt.toLocaleDateString()}</small>
         }
       </div>
-      <Link href={`/exercise/${id}`}>
-        <a className='dark:bg-slate-800 dark:text-slate-200 font-medium rounded text-center py-2 block'>Practice</a>
+      <Link href={`/exercise/practice/${id}`}>
+        <a
+          className='dark:bg-slate-800 dark:text-slate-200
+          bg-violet-400 text-slate-800
+          font-medium rounded text-center py-2 block'>Practice</a>
       </Link>
     </article>
   )

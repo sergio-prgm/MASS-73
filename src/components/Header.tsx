@@ -25,7 +25,7 @@ export default function Header (): JSX.Element {
 
   if (status === 'authenticated') {
     return (
-      <header className='flex flex-row justify-between items-center my-4'>
+      <header className='flex flex-row justify-between items-center py-4'>
         <Link href='/dashboard' >
           <a>Dashboard</a>
         </Link>

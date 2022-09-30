@@ -78,7 +78,7 @@ function TimeSignature ({ baseTS = 4 }) {
   }, [ts, setTs])
 
   return (<>
-    <div className='flex grow-0 justify-between items-center gap-2 mb-4' id="measures">
+    <div className='flex grow-0 justify-between items-center gap-2 mt-4' id="timesignature">
       <button
         onClick={() => ts > minTS && setTs(ts => ts - 1)}
         className='bg-slate-800 hover:bg-slate-700 rounded-full p-2'

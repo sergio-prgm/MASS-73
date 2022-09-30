@@ -4,7 +4,7 @@
 
 body {
   @apply dark:bg-slate-900 bg-slate-50;
-  user-select: none;
+  /* user-select: none; */
 }
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 
@@ -33,7 +33,7 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -8px;
 }
 
-input[type=range]::-moz-range-thumb {
+input[type=range]::-moz-range-thumb{
   -webkit-appearance: none;
   /* border-radius: 50%; */
   @apply dark:bg-violet-300 bg-violet-400 
@@ -43,12 +43,22 @@ input[type=range]::-moz-range-thumb {
   margin-top: -8px;
 }
 
+.non-edit[type=range]::-moz-range-thumb {
+  @apply hover:!bg-violet-400 dark:hover:!bg-violet-300; 
+  cursor: auto;
+}
+
+.non-edit[type=range]::-webkit-slider-thumb {
+  @apply hover:bg-violet-400 dark:hover:bg-violet-300;
+  cursor: auto;
+}
+
 input[type=range]::-webkit-slider-runnable-track{
-  @apply dark:bg-slate-700 bg-slate-300 border-none h-[3px] w-full;
+  @apply dark:bg-slate-700 bg-slate-400 border-none h-[3px] w-full;
 }
 
 input[type=range]::-moz-range-track{
-  @apply dark:bg-slate-700 bg-slate-300 border-none h-[3px] w-full;
+  @apply dark:bg-slate-700 bg-slate-400 border-none h-[3px] w-full;
 }
 
 /* NUMBER INPUTS */
